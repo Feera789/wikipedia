@@ -59,3 +59,16 @@ searchForm.addEventListener("submit", async (e) => {
       "<p> An error occured while searching. Please try again later. </p>";
   }
 });
+
+themeTog.addEventListener("click", () => {
+  body.classList.toggle("dark-theme");
+  if (body.classList.contains("dark-theme")) {
+    themeTog.textContent = "Dark";
+    themeTog.style.background = "#fff";
+    themeTog.style.color = "#333";
+  } else {
+    themeTog.textContent = "Light";
+    themeTog.style.background = "2px #ccc";
+    themeTog.style.color = "#333";
+  }
+});
