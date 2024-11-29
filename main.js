@@ -24,5 +24,38 @@ function displayResult(results) {
     const url = `https://en.wikipedia.org/?curid=${results.pageid}`;
     const titleLink = `<a href="${url}" target="_blank" rel="noopener">${result.title} </a>`;
     const urlLink = `<a href="${url} class="result-link" target="_blank" rel="noopener">${url}</a>`;
+
+    const resultIt = document.createElement("div");
+    resultIt.className = "result-item";
+    resultIt.innerHTML = `<h3 classs='result-title'>${titleLink}</h3> ${urlLink} <p class='result-sinppet'>${result.snippet}</p>`;
+
+    searchResults.appendChild(resultIt);
   });
 }
+
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const query = searchInput.value.trim();
+
+  if (!query) {
+    searchResults.innerHTML = "<p> Please enter a valid search teerm.</p>";
+    return;
+  }
+
+  searchResults.innerHTML = '<div class="spinner">Loading...</div>';
+
+  try {
+    const results = await searchWiki(query);
+
+    if (results.query.searchinfo.totalhits === 0) {
+      searchResults.innerHTML = "<p> No results found. </p>";
+    } else {
+      displayResult(results.query.search);
+    }
+  } catch (error) {
+    console.error(error);
+    searchResults.innerHTML =
+      "<p> An error occured while searching. Please try again later. </p>";
+  }
+});
